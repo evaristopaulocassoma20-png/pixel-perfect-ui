@@ -1,12 +1,12 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
 import { Grid } from "@/components/site";
-import { artists, worksByArtist } from "@/lib/catalog";
+import { listWorks } from "@/lib/catalog.functions";
 
 export const Route = createFileRoute("/artista/$slug")({
-  loader: ({ params }) => {
-    const name = artists[params.slug];
-    if (!name) throw notFound();
-    return { name };
+  loader: async ({ params }) => {
+    const items = await listWorks({ data: { artist: params.slug } });
+    if (!items.length) throw notFound();
+    return { name: items[0]!.artist_name, items };
   },
   head: ({ params, loaderData }) => {
     if (!loaderData) return { meta: [{ title: "Artista não encontrado" }, { name: "robots", content: "noindex" }] };
@@ -24,17 +24,17 @@ export const Route = createFileRoute("/artista/$slug")({
       links: [{ rel: "canonical", href: `/artista/${params.slug}` }],
     };
   },
+  errorComponent: ({ error }) => <p className="p-10">Erro: {error.message}</p>,
   component: ArtistPage,
 });
 
 function ArtistPage() {
-  const { slug } = Route.useParams();
-  const { name } = Route.useLoaderData();
+  const { name, items } = Route.useLoaderData();
   return (
     <main className="mx-auto max-w-6xl px-4 py-10">
       <p className="text-sm font-bold uppercase text-primary">Artista</p>
       <h1 className="mb-8 font-display text-5xl">{name}</h1>
-      <Grid items={worksByArtist(slug)} />
+      <Grid items={items} />
     </main>
   );
 }

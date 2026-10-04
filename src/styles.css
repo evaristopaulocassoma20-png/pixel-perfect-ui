@@ -153,3 +153,8 @@
   .panel { border: 2px solid var(--foreground); box-shadow: 6px 6px 0 var(--primary); }
   .tag-chip { @apply inline-block border border-border bg-secondary px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-secondary-foreground transition-colors hover:border-primary hover:text-primary; }
 }
+
+@layer components {
+  .letter { @apply inline-flex min-w-9 items-center justify-center border border-border bg-secondary py-1.5 text-sm font-bold transition-colors hover:border-primary hover:text-primary; }
+  .letter-active { @apply border-primary bg-primary text-primary-foreground hover:text-primary-foreground; }
+}
