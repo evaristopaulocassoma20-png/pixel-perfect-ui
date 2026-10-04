@@ -18,7 +18,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const [hero] = works;
+  const hero = works[0]!;
   return (
     <main className="mx-auto max-w-6xl px-4">
       <section className="relative my-10 grid items-center gap-8 md:grid-cols-[1.2fr_1fr]">
