@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ArtistaSlugRouteImport } from './routes/artista.$slug'
+import { Route as GSlugRouteImport } from './routes/g.$slug'
+import { Route as TagSlugRouteImport } from './routes/tag.$slug'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ArtistaSlugRoute = ArtistaSlugRouteImport.update({
+  id: '/artista/$slug',
+  path: '/artista/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const GSlugRoute = GSlugRouteImport.update({
+  id: '/g/$slug',
+  path: '/g/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TagSlugRoute = TagSlugRouteImport.update({
+  id: '/tag/$slug',
+  path: '/tag/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/artista/$slug': typeof ArtistaSlugRoute
+  '/g/$slug': typeof GSlugRoute
+  '/tag/$slug': typeof TagSlugRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/artista/$slug': typeof ArtistaSlugRoute
+  '/g/$slug': typeof GSlugRoute
+  '/tag/$slug': typeof TagSlugRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/artista/$slug': typeof ArtistaSlugRoute
+  '/g/$slug': typeof GSlugRoute
+  '/tag/$slug': typeof TagSlugRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/artista/$slug' | '/g/$slug' | '/tag/$slug'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/artista/$slug' | '/g/$slug' | '/tag/$slug'
+  id: '__root__' | '/' | '/artista/$slug' | '/g/$slug' | '/tag/$slug'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ArtistaSlugRoute: typeof ArtistaSlugRoute
+  GSlugRoute: typeof GSlugRoute
+  TagSlugRoute: typeof TagSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/artista/$slug': {
+      id: '/artista/$slug'
+      path: '/artista/$slug'
+      fullPath: '/artista/$slug'
+      preLoaderRoute: typeof ArtistaSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/g/$slug': {
+      id: '/g/$slug'
+      path: '/g/$slug'
+      fullPath: '/g/$slug'
+      preLoaderRoute: typeof GSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tag/$slug': {
+      id: '/tag/$slug'
+      path: '/tag/$slug'
+      fullPath: '/tag/$slug'
+      preLoaderRoute: typeof TagSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ArtistaSlugRoute: ArtistaSlugRoute,
+  GSlugRoute: GSlugRoute,
+  TagSlugRoute: TagSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
