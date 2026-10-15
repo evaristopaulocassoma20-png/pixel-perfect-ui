@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/mnt/home100/hentaico/public_html/
+    - /bin/cp -R * $DEPLOYPATH
